@@ -23,7 +23,7 @@ from users.views import UserViewSet
 
 router=DefaultRouter()
 router.register('chat',ChatViewset)
-router.register('message',MessageViewSet)
+router.register('Message',MessageViewSet)
 router.register('users',UserViewSet)
 router.register('Groups',GroupView,basename='groups')
 

@@ -27,3 +27,5 @@ class TimingMiddleware:
     def process_exception(self,request,exception):
         print(f"Exception: {exception}")
         return HttpResponse(f"Exception: {exception}")
+
+

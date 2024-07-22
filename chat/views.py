@@ -106,6 +106,15 @@ class MessageViewSet(ModelViewSet):
         serializer_class=MessageSerializer
         queryset=Message.objects.all()
         permission_classes=[AllowAny]
+
+        @action(methods=['PUT'],detail=True)
+        def update_content(self, request, pk):
+            message = Message.objects.all().filter(id=pk).first()
+            serializer = MessageSerializer(message, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=201)
+            return Response(serializer.errors, status=400)
     
         @action(methods=['get'],detail=False)
         def get_list(self,request):
@@ -126,25 +135,24 @@ class MessageViewSet(ModelViewSet):
                 serializer.save()
                 return Response(serializer.data, status=201)
             return Response(serializer.errors, status=400)
+        
+
+       
+        
+       
     
-        def retrieve(self,request,pk=None):
-            queryset = Message.objects.all()
-            message = get_object_or_404(queryset, pk=pk)
-            serializer = MessageSerializer(message)
-            return Response(serializer.data)
-    
-        def update(self,request,pk=None):
-            message = Message.objects.get(pk=pk)
-            serializer = MessageSerializer(message, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=201)
-            return Response(serializer.errors, status=400)
-    
-        def destroy(self,request,pk=None):
+       
+
+        
+        """
+ def destroy(self,request,pk=None):
             message = Message.objects.get(pk=pk)
             message.delete()
             return Response(status=204)
+
+        """
+    
+       
 
 
 class GroupView(ModelViewSet):
