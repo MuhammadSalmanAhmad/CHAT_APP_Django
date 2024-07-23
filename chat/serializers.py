@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from .models import Chat,Message,ChatGroup
 from django.contrib.auth.models import User
+from users.serializers import UserSerializer
+
 
 class MessageSerializer(serializers.ModelSerializer):
+    #sender = UserSerializer()
+    #read_by =UserSerializer(many=True)
     class Meta:
         model = Message
         fields = '__all__'

@@ -18,10 +18,10 @@ class UserViewSet(viewsets.ModelViewSet):
         
         return Response(serializer.data)
     
-    @action(methods=['post'],detail=True)
-    def create_user(self,request,pk):
+    @action(methods=['post'],detail=False)
+    def create_user(self,request):
         serializer=UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data,status=201)
+            return Response({"user created successfully"},status=201)
         return Response(serializer.errors,status=400)
