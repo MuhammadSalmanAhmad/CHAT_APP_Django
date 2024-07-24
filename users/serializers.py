@@ -1,6 +1,3 @@
-
-
-
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -9,29 +6,21 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id','username','email','password']
+        fields = ['id', 'username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
-        
-        def validate(self,data):
-            if len(data['password'])<6:
-                raise serializers.ValidationError('Password must be at least 6 characters long')
 
-        def create(self,validated_data):
-            
-            
-            
-            
-            user = User.objects.create_user(**validated_data)
-            
-            
-            
-            return user
-        
+    # FIELD VALIDATION syntax validate_<field name>
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password length should not be less than 8")
+        return value
 
+    # Uncomment and use this for object-level validation
+    # def validate(self, data):
+    #     if len(data['password']) < 6:
+    #         raise serializers.ValidationError('Password must be at least 6 characters long')
+    #     return data
 
-"""
-
- def get_full_name(self, obj):
-        return f'{obj.first_name} {obj.last_name}'
-"""
-   
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
